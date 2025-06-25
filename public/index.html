@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Log Monitor</title>
+  <style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f7fa;
+    padding: 40px;
+    color: #333;
+  }
+
+  h2 {
+    color: #2c3e50;
+  }
+
+  form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin-bottom: 30px;
+  }
+
+  input[type="file"] {
+    display: block;
+    margin-bottom: 15px;
+    padding: 10px;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #2980b9;
+  }
+
+  .result {
+    background-color: #ffffff;
+    border-left: 4px solid #2ecc71;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  strong {
+    color: #2c3e50;
+  }
+</style>
+
+</head>
+<body>
+  <h2>Upload Log File</h2>
+  <form id="logForm">
+    <input type="file" name="logFile" accept=".log,.txt" required />
+    <button type="submit">Analyze</button>
+  </form>
+
+  <div class="result" id="result"></div>
+
+  <script>
+     document.getElementById("logForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      const res = await fetch("/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      document.getElementById("result").innerHTML = `
+        <h3>Log Summary</h3>
+        <ul>
+          <li><strong>Total Lines:</strong> ${data.totalLines}</li>
+          <li><strong>Errors:</strong> ${data.errors}</li>
+          <li><strong>Warnings:</strong> ${data.warnings}</li>
+          <li><strong>Critical:</strong> ${data.critical}</li>
+          <li><strong>Info:</strong> ${data.info}</li>
+        </ul>
+      `;
+    });
+  </script>
+</body>
+</html>
