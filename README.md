@@ -26,7 +26,4 @@ A simple full-stack web application built with **Node.js** and **Express.js** th
 |--------------|---------------|------------------|
 | HTML, CSS, JS | Node.js, Express.js | Multer (file upload), Custom Parser |
 
----
-
-## 📁 Folder Structure
-
+--
